@@ -11,4 +11,9 @@ def contacts(request):
         phone = request.POST.get('phone')
         message = request.POST.get('message')
         print(f'Имя: {name} | Телефон: {phone} | Сообщение: {message}')
+        user_input = {"name": name,
+                      "phone": phone,
+                      "message": message
+                      }
+        return render(request, 'catalog/contacts.html', context={"data": user_input})
     return render(request, 'catalog/contacts.html')
