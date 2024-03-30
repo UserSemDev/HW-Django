@@ -23,7 +23,6 @@ class Product(models.Model):
     price = models.IntegerField(verbose_name='Цена')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата изменения')
-    manufactured_at = models.DateTimeField(default=date(year=2024, month=3, day=31), verbose_name='Дата производства')
 
     def __str__(self):
         """Строковое отображение продукта"""
