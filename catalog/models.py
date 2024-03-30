@@ -1,8 +1,8 @@
 from django.db import models
-from datetime import date
+
 
 class Category(models.Model):
-    """"""
+    """Категория товара"""
     name = models.CharField(max_length=150, verbose_name='Наименование')
     description = models.TextField(verbose_name='Описание')
 
@@ -16,6 +16,7 @@ class Category(models.Model):
 
 
 class Product(models.Model):
+    """Информация о продукте"""
     name = models.CharField(max_length=150, verbose_name='Наименование')
     description = models.TextField(null=True, blank=True, verbose_name='Описание')
     image = models.ImageField(upload_to='product/', null=True, blank=True, verbose_name='Изображение')
