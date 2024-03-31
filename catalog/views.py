@@ -1,12 +1,12 @@
 from django.shortcuts import render
-
 from catalog.models import Product, Contact
 
 
 def home(request):
     products = Product.objects.all()
-    for num, item in enumerate(products[:5], 1):
-        print(f"{num}: {item}")
+    list_product = products[len(products) - 5:]
+    for num, product in enumerate(list_product, 1):
+        print(f"{num}: {product}")
     return render(request, 'catalog/home.html', context={"products": products})
 
 
