@@ -1,0 +1,21 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+{% load my_tags %}
+<div class="row">
+    <div class="col pr-img">
+        <img src="{{ object.image|media_url }}">
+    </div>
+    <div class="col">
+        <b class="pr_inf">Информация о продукте</b>
+        <ul>
+            <li>Наименование: {{object.name}}</li>
+            <li>Категория: {{object.category}}</li>
+            <li>Цена: {{object.price}} Р</li>
+        </ul>
+    </div>
+    <div class="col">
+        <b class="pr_inf">Описание продукта:</b>
+        <p>{{object.description|replace_newline}}</p>
+    </div>
+</div>
+{% endblock %}

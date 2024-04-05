@@ -1,0 +1,51 @@
+<div class="row justify-content-center">
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="card mb-4 box-shadow shadow-lg">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal text-center">Товар</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="form-group mb-2">
+                        <label for="name01" class="form-label">Наименование:</label>
+                        <input name="name" type="text" class="form-control" id="name01"
+                               placeholder="Введите название" required>
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <label for="validationCustom01" class="form-label">Выберите категорию:</label>
+                        <select name="category" class="form-select" id="validationCustom01" required>
+                            <option selected disabled value="">Выберите...</option>
+                            {% for objects in objects_list %}
+                            <option value="{{ objects.pk }}">{{ objects.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <label for="price01" class="form-label">Цена:</label>
+                        <input name="price" type="text" class="form-control" id="price01" placeholder="Введите цену"
+                               required>
+                    </div>
+
+                    <div class="form-group mb-2">
+                        <label for="description01" class="form-label">Описание:</label>
+                        <textarea name="description" class="form-control" id="description01"
+                                  placeholder="Введите описание" required></textarea>
+                    </div>
+
+                    <div class="mb-2">
+                        <label for="formFileMultiple" class="form-label">Картинка:</label>
+                        <input name="image" class="form-control" type="file" id="formFileMultiple" multiple>
+                    </div>
+
+                    <div class="mb-2">
+                        <button class="btn btn-outline-success form-control" type="submit">Добавить продукт</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
