@@ -5,8 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Products-Shop - {{ title }}</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="{% static 'css/my.css' %}">
 <!--    <script src="{% static 'js/my.js' %}"></script>-->
 </head>
@@ -14,10 +13,10 @@
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
     <h5 class="my-0 mr-md-auto font-weight-normal">Products-Shop</h5>
     <nav class="ms-5">
-        <a class="p-2 btn btn-outline-success" href="/">Главная</a>
-        <a class="p-2 btn btn-outline-success" href="/1">Продукты</a>
-        <a class="p-2 btn btn-outline-success" href="/add_product/">Добавление товара</a>
-        <a class="p-2 btn btn-outline-success" href="/contacts/">Контакты</a>
+        <a class="p-2 btn btn-outline-success" href="{% url 'catalog:home' %}">Главная</a>
+        <a class="p-2 btn btn-outline-success" href="{% url 'catalog:products_page' pk=1 %}">Продукты</a>
+        <a class="p-2 btn btn-outline-success" href="{% url 'catalog:add_product' %}">Добавление товара</a>
+        <a class="p-2 btn btn-outline-success" href="{% url 'catalog:contacts' %}">Контакты</a>
     </nav>
 </div>
 
@@ -39,8 +38,6 @@
 </footer>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
-        crossorigin="anonymous"></script>
+<script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
 </body>
 </html>

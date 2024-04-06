@@ -8,7 +8,7 @@
             <div class="p_price">{{ objects.price }}<img src="{{ 'product/rub.png'|media_url }}"/>
             </div>
             <div class="p_image">
-                <a href="/product/{{ objects.pk }}"><img src="{{ objects.image|media_url }}"></a>
+                <a href="{% url 'catalog:product_info' pk=objects.pk %}"><img src="{{ objects.image|media_url }}"></a>
             </div>
             <div class="p_name">
                 <p>{{ objects.name }}</p>
