@@ -10,40 +10,25 @@ class Command(BaseCommand):
     @staticmethod
     def json_read_categories():
         """Получение данных категорий из фикстуры"""
-        with open(f'{BASE_DIR}/fixtures/catalog_data.json', encoding='UTF-8') as file:
+        with open(f'{BASE_DIR}/fixtures/001_categories_data.json', encoding='UTF-8') as file:
             data = json.load(file)
-        list_category = []
-        for category in data:
-            if 'category' in category['model']:
-                list_category.append(category)
-        return list_category
+        return data
 
     @staticmethod
     def json_read_products():
         """Получение данных продуктов из фикстуры"""
-        with open(f'{BASE_DIR}/fixtures/catalog_data.json', encoding='UTF-8') as file:
+        with open(f'{BASE_DIR}/fixtures/002_products_data.json', encoding='UTF-8') as file:
             data = json.load(file)
-        list_product = []
-        for product in data:
-            if 'product' in product['model']:
-                list_product.append(product)
-        return list_product
+        return data
 
     @staticmethod
     def json_read_contacts():
         """Получение контактов из фикстуры"""
-        with open(f'{BASE_DIR}/fixtures/catalog_data.json', encoding='UTF-8') as file:
+        with open(f'{BASE_DIR}/fixtures/003_contacts_data.json', encoding='UTF-8') as file:
             data = json.load(file)
-        list_contact = []
-        for contact in data:
-            if 'contact' in contact['model']:
-                list_contact.append(contact)
-        return list_contact
+        return data
 
     def handle(self, *args, **options):
-        Product.objects.all().delete()
-        Category.objects.all().delete()
-        Contact.objects.all().delete()
 
         with connection.cursor() as cursor:
             cursor.execute(

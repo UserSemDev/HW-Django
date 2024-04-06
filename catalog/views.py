@@ -5,10 +5,12 @@ from catalog.models import Product, Contact, Category
 
 
 def home(request):
-    list_product = Product.objects.all()
+    list_product = Product.objects.all()[:8]
+
     context = {
         "objects_list": list_product,
-        "title": 'Главная'
+        "title": 'Главная',
+        "start_page": '1',
     }
 
     return render(request, 'catalog/home.html', context)
@@ -16,14 +18,20 @@ def home(request):
 
 def products_page(request, pk):
     list_product = Product.objects.all()
-    count_page_product = math.ceil(len(list_product) / 4)
-
+    count_page_product = math.ceil(list_product.count() / 4)
+    prev_url = f'{pk-1 if pk != 1 else "/"}'
+    next_url = f'{pk+1 if pk != count_page_product else "/"}'
     context = {
         'objects_list': list_product[(pk*4-4):(pk*4)],
         'title': 'Продукты',
-        'prev_url': f'/{pk-1 if pk-1 else 1}',
-        'next_url': f'/{pk+1 if pk < count_page_product else count_page_product}',
+        'prev_url': prev_url,
+        'next_url': next_url,
     }
+    if prev_url == "/":
+        context['prev_disabled'] = 'disabled'
+    if next_url == "/":
+        context['next_disabled'] = 'disabled'
+
     return render(request, 'catalog/home.html', context)
 
 
@@ -57,12 +65,13 @@ def add_product(request):
         print(request.POST)
         print(request.FILES)
         print(request.POST.get('category'))
+        print(request.POST)
         Product.objects.create(
-            pk=len(Product.objects.all()) + 1,
             name=request.POST.get('name'),
             description=request.POST.get('description'),
-            image=request.FILES.get('image'),
-            category=Category.objects.get(pk=request.POST.get('category')),
+            image=f"{Product.objects.count():04}_{request.FILES.get('image')}",
+            category_id=request.POST.get('category'),
             price=request.POST.get('price'),
         )
+
     return render(request, 'catalog/add_product.html', context)

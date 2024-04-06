@@ -1,0 +1,26 @@
+[
+{
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+        "name": "Фрукты",
+        "description": "категория содержащая фрукты"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+        "name": "Овощи",
+        "description": "категория содержащая овощи"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
+        "name": "Ягоды",
+        "description": "категория содержащая ягоды"
+    }
+}
+]

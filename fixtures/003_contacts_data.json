@@ -1,0 +1,12 @@
+[
+{
+    "model": "catalog.contact",
+    "pk": 1,
+    "fields": {
+        "country": "Россия",
+        "city": "Москва",
+        "address": "ул. Московская, д. 1",
+        "ein": "123456789011"
+    }
+}
+]
