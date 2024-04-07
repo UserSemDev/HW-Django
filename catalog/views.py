@@ -1,5 +1,7 @@
 import math
+import os
 
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.shortcuts import render
 from catalog.models import Product, Contact, Category
 
@@ -62,14 +64,16 @@ def add_product(request):
         'title': 'Добавление товара'
     }
     if request.method == 'POST':
-        print(request.POST)
-        print(request.FILES)
-        print(request.POST.get('category'))
-        print(request.POST)
+        image = request.FILES.get('image')
+
+        obj_image = InMemoryUploadedFile(
+            image.file, 'image', f'{Product.objects.count() + 1:04}_{image.name}',
+            image.content_type, image.tell, image.charset)
+
         Product.objects.create(
             name=request.POST.get('name'),
             description=request.POST.get('description'),
-            image=f"{Product.objects.count():04}_{request.FILES.get('image')}",
+            image=obj_image,
             category_id=request.POST.get('category'),
             price=request.POST.get('price'),
         )

@@ -45,6 +45,9 @@ class Command(BaseCommand):
 
         Category.objects.bulk_create(category_for_create)
 
+        with connection.cursor() as cursor:
+            cursor.execute(f"ALTER SEQUENCE catalog_category_id_seq RESTART WITH {Product.objects.count() + 1}")
+
         for product in Command.json_read_products():
             product_for_create.append(Product(pk=product['pk'],
                                               name=product['fields']['name'],
@@ -57,6 +60,9 @@ class Command(BaseCommand):
 
         Product.objects.bulk_create(product_for_create)
 
+        with connection.cursor() as cursor:
+            cursor.execute(f"ALTER SEQUENCE catalog_product_id_seq RESTART WITH {Product.objects.count() + 1}")
+
         for contact in Command.json_read_contacts():
             contact_for_create.append(Contact(pk=contact['pk'],
                                               country=contact['fields']['country'],
@@ -65,3 +71,6 @@ class Command(BaseCommand):
                                               ein=contact['fields']['ein']))
 
         Contact.objects.bulk_create(contact_for_create)
+
+        with connection.cursor() as cursor:
+            cursor.execute(f"ALTER SEQUENCE catalog_contact_id_seq RESTART WITH {Product.objects.count() + 1}")
