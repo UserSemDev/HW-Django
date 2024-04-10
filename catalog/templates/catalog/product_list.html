@@ -1,0 +1,37 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+{% load my_tags %}
+<div style='max-width: 855px; margin: 0 auto;'>
+    <div class="list_products justify-content-center">
+        {% for object in page_obj %}
+        <div class="p_item">
+            <div class="p_price">{{ object.price }}<img src="{{ 'catalog/image/product/rub.png'|media_url }}"/>
+            </div>
+            <div class="p_image">
+                <a href="{% url 'catalog:detail_product' pk=object.pk %}"><img src="{{ object.image|media_url }}"></a>
+            </div>
+            <div class="p_name">
+                <p>{{ object.name }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="pagination mt-3 justify-content-center">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; Начало</a>
+                <a href="?page={{ page_obj.previous_page_number }}">Предыдущая</a>
+            {% endif %}
+
+            <span class="current">
+                Страница {{ page_obj.number }} из {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">Следующая</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">Конец &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+{% endblock %}

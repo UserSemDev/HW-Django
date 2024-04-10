@@ -13,10 +13,10 @@
 <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
     <h5 class="my-0 mr-md-auto font-weight-normal">Products-Shop</h5>
     <nav class="ms-5">
-        <a class="p-2 btn btn-outline-success" href="{% url 'catalog:home' %}">Главная</a>
-        <a class="p-2 btn btn-outline-success" href="{% url 'catalog:products_page' pk=1 %}">Продукты</a>
-        <a class="p-2 btn btn-outline-success" href="{% url 'catalog:add_product' %}">Добавление товара</a>
-        <a class="p-2 btn btn-outline-success" href="{% url 'catalog:contacts' %}">Контакты</a>
+        <a class="p-2 btn btn-outline-success" href="{% url 'catalog:home_page' %}">Главная</a>
+        <a class="p-2 btn btn-outline-success" href="{% url 'catalog:list_product'%}">Продукты</a>
+        <a class="p-2 btn btn-outline-success" href="{% url 'catalog:create_product' %}">Добавление товара</a>
+        <a class="p-2 btn btn-outline-success" href="{% url 'catalog:index_contact' %}">Контакты</a>
     </nav>
 </div>
 

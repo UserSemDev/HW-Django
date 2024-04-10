@@ -1,81 +1,72 @@
-import math
-import os
-
-from django.core.files.uploadedfile import InMemoryUploadedFile
-from django.shortcuts import render
-from catalog.models import Product, Contact, Category
+from django.urls import reverse_lazy
+from django.views.generic import TemplateView, DetailView, CreateView, ListView
+from catalog.models import Product, Contact, Category, Feedback
 
 
-def home(request):
-    list_product = Product.objects.all()[:8]
-
-    context = {
-        "objects_list": list_product,
-        "title": 'Главная',
-        "start_page": '1',
+class HomeIndexView(TemplateView):
+    template_name = 'catalog/index.html'
+    extra_context = {
+        "title": "Главная",
     }
 
-    return render(request, 'catalog/home.html', context)
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['objects_list'] = Product.objects.all()[:8]
+        return context_data
 
 
-def products_page(request, pk):
-    list_product = Product.objects.all()
-    count_page_product = math.ceil(list_product.count() / 4)
-    prev_url = f'{pk-1 if pk != 1 else "/"}'
-    next_url = f'{pk+1 if pk != count_page_product else "/"}'
-    context = {
-        'objects_list': list_product[(pk*4-4):(pk*4)],
-        'title': 'Продукты',
-        'prev_url': prev_url,
-        'next_url': next_url,
-    }
-    if prev_url == "/":
-        context['prev_disabled'] = 'disabled'
-    if next_url == "/":
-        context['next_disabled'] = 'disabled'
-
-    return render(request, 'catalog/home.html', context)
-
-
-def contacts(request):
-    context = {
-        "object": Contact.objects.get(pk=1),
+class ContactIndexView(CreateView):
+    model = Feedback
+    fields = ('name', 'phone', 'message')
+    extra_context = {
         "title": 'Контакты'
     }
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        phone = request.POST.get('phone')
-        message = request.POST.get('message')
-        print(f'Имя: {name} | Телефон: {phone} | Сообщение: {message}')
-    return render(request, 'catalog/contacts.html', context)
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['object'] = Contact.objects.get(pk=1)
+        return context_data
+
+    def form_valid(self, form):
+        if form.is_valid():
+            form.save()
+        return super().form_valid(form)
+
+    success_url = reverse_lazy('catalog:index_contact')
 
 
-def product_info(request, pk):
-    context = {
-        'object': Product.objects.get(pk=pk),
-        'title': 'Продукт'
+class ProductListView(ListView):
+    paginate_by = 4
+    model = Product
+    extra_context = {
+        "title": "Продукты"
     }
-    return render(request, 'catalog/product.html', context)
 
 
-def add_product(request):
-    context = {
-        'objects_list': Category.objects.all(),
-        'title': 'Добавление товара'
+class ProductDetailView(DetailView):
+    model = Product
+    extra_context = {
+        "title": "Продукт"
     }
-    if request.method == 'POST':
-        image = request.FILES.get('image')
 
-        obj_image = InMemoryUploadedFile(
-            image.file, 'image', f'{Product.objects.count() + 1:04}_{image.name}',
-            image.content_type, image.tell, image.charset)
 
-        Product.objects.create(
-            name=request.POST.get('name'),
-            description=request.POST.get('description'),
-            image=obj_image,
-            category_id=request.POST.get('category'),
-            price=request.POST.get('price'),
-        )
+class ProductCreateView(CreateView):
+    model = Product
+    fields = ('name', 'description', 'image', 'category', 'price')
+    extra_context = {
+        "title": "Добавление товара"
+    }
 
-    return render(request, 'catalog/add_product.html', context)
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['objects_list'] = Category.objects.all()
+        return context_data
+
+    def form_valid(self, form):
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.image.name = f'{Product.objects.count() + 1:04}_{form.cleaned_data["image"].name}'
+            instance.save()
+        return super().form_valid(form)
+
+    success_url = reverse_lazy('catalog:list_product')

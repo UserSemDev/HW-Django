@@ -1,0 +1,23 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+{% load my_tags %}
+<div style='max-width: 855px; margin: 0 auto;'>
+    <div class="list_products justify-content-center">
+        {% for objects in objects_list %}
+        <div class="p_item">
+            <div class="p_price">{{ objects.price }}<img src="{{ 'catalog/image/product/rub.png'|media_url }}"/>
+            </div>
+            <div class="p_image">
+                <a href="{% url 'catalog:detail_product' pk=objects.pk %}"><img src="{{ objects.image|media_url }}"></a>
+            </div>
+            <div class="p_name">
+                <p>{{ objects.name }}</p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="text-center me-4">
+        <a class="p-2 btn btn-outline-success form-control" href="{% url 'catalog:list_product' %}">Подробнее</a>
+    </div>
+</div>
+{% endblock %}

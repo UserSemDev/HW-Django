@@ -48,3 +48,19 @@ class Contact(models.Model):
     class Meta:
         verbose_name = "контакт"
         verbose_name_plural = "контакты"
+
+
+class Feedback(models.Model):
+    """Обратная связь"""
+    name = models.CharField(max_length=50, verbose_name='Имя')
+    phone = models.CharField(max_length=15, verbose_name='Номер')
+    message = models.TextField(verbose_name='Сообщение')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата отправки')
+
+    def __str__(self):
+        """Строковое представление сообщения feedback"""
+        return f"{self.name} | {self.phone} | {self.message[0:50]}..."
+
+    class Meta:
+        verbose_name = 'сообщение'
+        verbose_name_plural = 'сообщения'
