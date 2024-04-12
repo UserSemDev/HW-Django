@@ -15,7 +15,7 @@ class HomeIndexView(TemplateView):
         return context_data
 
 
-class ContactIndexView(CreateView):
+class ContactCreateView(CreateView):
     model = Feedback
     fields = ('name', 'phone', 'message')
     extra_context = {
