@@ -1,0 +1,22 @@
+<div class="row justify-content-center">
+    <div class="col-lg-4 col-md-6 col-sm-12">
+        <div class="card mb-4 box-shadow shadow-lg">
+            <div class="card-header">
+                <h4 class="my-0 font-weight-normal text-center">Статья</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button class="btn btn-outline-success form-control" type="submit">
+                        {% if object %}
+                            Сохранить
+                        {% else %}
+                            Добавить
+                        {% endif %}
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

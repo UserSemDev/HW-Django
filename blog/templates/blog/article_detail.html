@@ -1,0 +1,19 @@
+{% extends 'catalog/base.html' %}
+{% load my_tags %}
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <b class="pr_inf">{{ object.title }}</b>
+            </div>
+            <div class="card-body">
+                <img src="{{ object.image | media_url }}" style="width:100%;height:30em;">
+                <p class="mt-4">{{ object.content }}...</p>
+                <p>{{ object.created_at }}</p>
+                <p>Количество просмотров: {{ object.count_views }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
