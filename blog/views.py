@@ -12,10 +12,10 @@ class ArticleListView(ListView):
         "title": "Cтатьи"
     }
 
-    def get_context_data(self, *args, object_list=None, **kwargs):
-        context = super().get_context_data(*args, object_list=None, **kwargs)
-        context['object_list'] = Article.objects.filter(is_published=True)
-        return context
+    def get_queryset(self, *args, **kwargs):
+        queryset = super().get_queryset(*args, **kwargs)
+        queryset = queryset.filter(is_published=True)
+        return queryset
 
 
 class ArticleDetailView(DetailView):
