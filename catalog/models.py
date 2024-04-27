@@ -1,3 +1,5 @@
+import datetime
+
 from django.db import models
 
 
@@ -64,3 +66,29 @@ class Feedback(models.Model):
     class Meta:
         verbose_name = 'сообщение'
         verbose_name_plural = 'сообщения'
+
+
+class Version(models.Model):
+    """Версия продукта"""
+    winter = "WNR"
+    spring = "SRG"
+    summer = "SMR"
+    autumn = "ATN"
+    season_choices = {
+        winter: 'Зима',
+        spring: 'Весна',
+        summer: 'Лето',
+        autumn: 'Осень'
+    }
+
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Продукт")
+    season = models.CharField(max_length=3, choices=season_choices, default=summer, verbose_name="Сезон")
+    season_description = models.CharField(max_length=100, verbose_name="Описание сезона")
+    active_season = models.BooleanField(default=True, verbose_name="Признак сезона")
+
+    def __str__(self):
+        return f"{self.product}, {self.season}"
+
+    class Meta:
+        verbose_name = 'версия'
+        verbose_name_plural = 'версии'

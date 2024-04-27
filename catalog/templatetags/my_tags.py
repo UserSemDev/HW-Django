@@ -18,3 +18,15 @@ def media_url(data):
     if data:
         return f"/media/{data}"
     return "#"
+
+
+@register.filter
+def season_name(data):
+    if data:
+        season = {
+            'WNR': 'Зима',
+            'SRG': 'Весна',
+            'SMR': 'Лето',
+            'ATN': 'Осень'}
+        return f"{season.get(data)}"
+    return "Bug"

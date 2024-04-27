@@ -12,6 +12,13 @@
             <li>Категория: {{object.category}}</li>
             <li>Цена: {{object.price}} Р</li>
         </ul>
+        {% if version %}
+            <b class="pr_inf">Информация о сезоне:</b>
+            <ul>
+             <li>Сезон: {{ version.0.season | season_name }}</li>
+             <li>Описание: {{ version.0.season_description }}</li>
+            </ul>
+        {% endif %}
         <div class="col-12">
             <a class="btn btn-warning" href="{% url 'catalog:product_update' object.pk %}">Редактровать</a>
             <a class="btn btn-danger" href="{% url 'catalog:product_delete' object.pk %}">Удалить</a>

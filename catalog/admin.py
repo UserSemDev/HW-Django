@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from catalog.models import Category, Product, Contact, Feedback
+from catalog.models import Category, Product, Contact, Feedback, Version
 
 
 @admin.register(Category)
@@ -29,3 +29,9 @@ class FeedbackAdmin(admin.ModelAdmin):
     list_display = ('pk', 'name', 'phone', 'message', 'created_at',)
     list_filter = ('name', 'phone',)
     search_fields = ('message',)
+
+
+@admin.register(Version)
+class VersionAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'product', 'season', 'active_season',)
+    list_filter = ('active_season',)

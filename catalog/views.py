@@ -2,7 +2,7 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, DetailView, CreateView, ListView, UpdateView, DeleteView
 
 from catalog.forms import ProductForms
-from catalog.models import Product, Contact, Category, Feedback
+from catalog.models import Product, Contact, Category, Feedback, Version
 
 
 class HomeIndexView(TemplateView):
@@ -50,6 +50,12 @@ class ProductDetailView(DetailView):
     extra_context = {
         "title": "Продукт"
     }
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['version'] = Version.objects.filter(product=self.object)
+        print(context_data)
+        return context_data
 
 
 class ProductCreateView(CreateView):
