@@ -31,7 +31,7 @@
     ``` ini
     ENGINE="postgresql_psycopg2"
     NAME="db_name" - название вашей БД
-    USER="postgres" - имя пользователя БД
+    PGUSER="postgres" - имя пользователя БД
     PASSWORD="secret" - пароль пользователя БД
     HOST="host" - можно указать "localhost" или "127.0.0.1"
     PORT=port - указываете порт для подключения по умолчанию 5432

@@ -1,5 +1,7 @@
-from django.urls import reverse_lazy
-from django.views.generic import TemplateView, DetailView, CreateView, ListView
+from django.urls import reverse_lazy, reverse
+from django.views.generic import TemplateView, DetailView, CreateView, ListView, UpdateView, DeleteView
+
+from catalog.forms import ProductForms
 from catalog.models import Product, Contact, Category, Feedback
 
 
@@ -52,10 +54,11 @@ class ProductDetailView(DetailView):
 
 class ProductCreateView(CreateView):
     model = Product
-    fields = ('name', 'description', 'image', 'category', 'price')
+    form_class = ProductForms
     extra_context = {
         "title": "Добавление товара"
     }
+    success_url = reverse_lazy('catalog:product_list')
 
     def get_context_data(self, **kwargs):
         context_data = super().get_context_data(**kwargs)
@@ -65,8 +68,38 @@ class ProductCreateView(CreateView):
     def form_valid(self, form):
         if form.is_valid():
             instance = form.save(commit=False)
-            instance.image.name = f'{Product.objects.count() + 1:04}_{form.cleaned_data["image"].name}'
+            instance.image.name = f'{Product.objects.count() + 1:04}_{instance.image.name}'
             instance.save()
         return super().form_valid(form)
 
-    success_url = reverse_lazy('catalog:list_product')
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForms
+    extra_context = {
+        "title": "Редактирование товара"
+    }
+
+    def get_success_url(self):
+        return reverse('catalog:product_detail', args=[self.kwargs.get('pk')])
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['objects_list'] = Category.objects.all()
+        return context_data
+
+    def form_valid(self, form):
+        if form.is_valid():
+            instance = form.save(commit=False)
+            if instance.image:
+                instance.image.name = f'{Product.objects.count():04}_{instance.image.name}'
+            instance.save()
+        return super().form_valid(form)
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    extra_context = {
+        "title": "Удаление товара"
+    }
+    success_url = reverse_lazy('catalog:product_list')

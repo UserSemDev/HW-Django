@@ -86,7 +86,7 @@ DATABASES = {
     'default': {
         'ENGINE': f'django.db.backends.{os.getenv("ENGINE")}',
         'NAME': os.getenv("NAME"),
-        'USER': os.getenv("USER"),
+        'USER': os.getenv("PGUSER"),
         'PASSWORD': os.getenv("PASSWORD"),
         'HOST': os.getenv("HOST"),
         'PORT': os.getenv("PORT"),

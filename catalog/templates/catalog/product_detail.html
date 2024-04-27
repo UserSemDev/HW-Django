@@ -2,18 +2,22 @@
 {% block content %}
 {% load my_tags %}
 <div class="row">
-    <div class="col pr-img">
-        <img src="{{ object.image|media_url }}">
+    <div class="col-4">
+        <img src="{{ object.image|media_url }}" style="width:30em;height:30em;">
     </div>
-    <div class="col">
+    <div class="col-4">
         <b class="pr_inf">Информация о продукте</b>
         <ul>
             <li>Наименование: {{object.name}}</li>
             <li>Категория: {{object.category}}</li>
             <li>Цена: {{object.price}} Р</li>
         </ul>
+        <div class="col-12">
+            <a class="btn btn-warning" href="{% url 'catalog:product_update' object.pk %}">Редактровать</a>
+            <a class="btn btn-danger" href="{% url 'catalog:product_delete' object.pk %}">Удалить</a>
+        </div>
     </div>
-    <div class="col">
+    <div class="col-4">
         <b class="pr_inf">Описание продукта:</b>
         <p>{{object.description|replace_newline}}</p>
     </div>
