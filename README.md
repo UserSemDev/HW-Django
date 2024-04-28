@@ -44,7 +44,15 @@
 [Настройка почтового сервиса SMTP ](https://proghunter.ru/articles/setting-up-the-smtp-mail-service-for-yandex-in-django)
 
 ##### Запуск проекта:
-- Для запуска проекта в терминале введите команду и перейдите по адресу
-    ```text
-    python manage.py runserver
-    ```
+- примените миграции:
+  ```text
+  python manage.py migrate
+  ```
+- примените фикстуры:
+  ```text
+  python -Xutf8 manage.py loaddata fixtures/*.json
+  ```
+- запустите проект и перейтиде по адресу:
+  ```text
+  python manage.py runserver
+  ```
