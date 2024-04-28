@@ -5,7 +5,7 @@
         <div class="card-body">
             <form method="POST">
                 {% csrf_token %}
-                <p>Вы действительно хотет удалить продукт:<br><i>{{ object.title }}</i></p>
+                <p>Вы действительно хотет удалить продукт: <i>{{ object.name }}</i></p>
                 <img src="/media/{{ object.image }}" style="width:100%">
                 <div class="row">
                     <button type="submit" class="btn btn-danger mt-2">Подтвердить</button>

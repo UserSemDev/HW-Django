@@ -33,5 +33,5 @@ class FeedbackAdmin(admin.ModelAdmin):
 
 @admin.register(Version)
 class VersionAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'product', 'season', 'active_season',)
-    list_filter = ('active_season',)
+    list_display = ('pk', 'product', 'season', 'is_active',)
+    list_filter = ('is_active',)

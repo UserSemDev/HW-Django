@@ -15,8 +15,8 @@
         {% if version %}
             <b class="pr_inf">Информация о сезоне:</b>
             <ul>
-             <li>Сезон: {{ version.0.season | season_name }}</li>
-             <li>Описание: {{ version.0.season_description }}</li>
+             <li>Сезон: {{ version.season | season_name }}</li>
+             <li>Описание: {{ version.description }}</li>
             </ul>
         {% endif %}
         <div class="col-12">

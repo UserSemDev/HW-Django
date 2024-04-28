@@ -81,10 +81,10 @@ class Version(models.Model):
         autumn: 'Осень'
     }
 
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="Продукт")
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='version', verbose_name="Продукт")
     season = models.CharField(max_length=3, choices=season_choices, default=summer, verbose_name="Сезон")
-    season_description = models.CharField(max_length=100, verbose_name="Описание сезона")
-    active_season = models.BooleanField(default=True, verbose_name="Признак сезона")
+    description = models.TextField(max_length=250, verbose_name="Описание сезона")
+    is_active = models.BooleanField(default=True, verbose_name="Активный сезон")
 
     def __str__(self):
         return f"{self.product}, {self.season}"
