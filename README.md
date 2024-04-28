@@ -3,7 +3,6 @@
 ### Описание проекта:
 
 ##### Технологии:
-- Python
 - Django
 - python-dotenv
 - psycopg2-binary

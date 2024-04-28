@@ -3,7 +3,7 @@
     "model": "catalog.version",
     "pk": 1,
     "fields": {
-      "product": 20,
+      "product": 19,
       "season": "SMR",
       "description": "Летняя поставка из Турции",
       "is_active": false
@@ -13,7 +13,7 @@
     "model": "catalog.version",
     "pk": 2,
     "fields": {
-      "product": 20,
+      "product": 19,
       "season": "ATN",
       "description": "Осенняя поставка из Марокко",
       "is_active": true
