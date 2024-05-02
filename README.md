@@ -54,7 +54,7 @@ pip install -r requirements.txt
 ##### 3. Редактирование .env.sample:
 
 - В корне проекта переименуйте файл .env.sample в .env и отредактируйте параметры:
-    ``` ini
+    ```text
     ENGINE="postgresql_psycopg2"
     NAME="db_name" - название вашей БД
     PGUSER="postgres" - имя пользователя БД
@@ -65,6 +65,9 @@ pip install -r requirements.txt
     EMAIL_HOST_USER='your_email@yandex.ru' - ваш email yandex
     EMAIL_HOST_PASSWORD='your_yandex_smtp_password' - ваш пароль smtp (подробнее о настройке ниже)
     EMAIL_HOST_TO_USER='recipient@example.com' - email получателя сообщений
+  
+    ADMIN_EMAIL='admin@test.com' - email регистрации администратора сайта
+    ADMIN_PASSWORD='secret' - пароль регистрации администратора сайта
     ```
 - О настройке почты smtp: 
 [Настройка почтового сервиса SMTP ](https://proghunter.ru/articles/setting-up-the-smtp-mail-service-for-yandex-in-django)

@@ -46,6 +46,7 @@ INSTALLED_APPS = [
 
     'catalog',
     'blog',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -152,3 +153,5 @@ EMAIL_HOST_TO_USER = os.getenv('EMAIL_HOST_TO_USER')  # email получател
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 SERVER_EMAIL = EMAIL_HOST_USER
 EMAIL_ADMIN = EMAIL_HOST_USER
+
+AUTH_USER_MODEL = 'users.User'
