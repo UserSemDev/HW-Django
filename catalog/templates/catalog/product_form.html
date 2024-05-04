@@ -27,8 +27,12 @@
                 </div>
                 <div class="card-body">
                     {{ formset.management_form }}
+                    {{ formset.non_form_errors }}
                     {% for form in formset.forms %}
-                    {{ form.as_p }}
+                        {{ form.as_p }}
+                        {% if not forloop.last %}
+                            <hr>
+                        {% endif %}
                     {% endfor %}
                 </div>
             </div>

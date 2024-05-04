@@ -1,7 +1,9 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
 from django.urls import reverse_lazy, reverse
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
+from blog.forms import ArticleForm
 from blog.models import Article
 from config.settings import EMAIL_HOST_USER, EMAIL_HOST_TO_USER
 
@@ -41,9 +43,10 @@ class ArticleDetailView(DetailView):
         return self.object
 
 
-class ArticleCreateView(CreateView):
+class ArticleCreateView(LoginRequiredMixin, CreateView):
+    login_url = reverse_lazy('users:login')
     model = Article
-    fields = ('title', 'content', 'image', 'is_published')
+    form_class = ArticleForm
     extra_context = {
         "title": "Добавление статьи"
     }
@@ -51,10 +54,17 @@ class ArticleCreateView(CreateView):
     def get_success_url(self):
         return reverse('blog:view_article', args=[self.object.slug])
 
+    def form_valid(self, form):
+        self.object = form.save()
+        self.object.owner = self.request.user
+        self.object.save()
+        return super().form_valid(form)
 
-class ArticleUpdateView(UpdateView):
+
+class ArticleUpdateView(LoginRequiredMixin, UpdateView):
+    login_url = reverse_lazy('users:login')
     model = Article
-    fields = ('title', 'content', 'image', 'is_published')
+    form_class = ArticleForm
     extra_context = {
         "title": "Редактирование статьи"
     }
@@ -63,7 +73,8 @@ class ArticleUpdateView(UpdateView):
         return reverse('blog:view_article', args=[self.object.slug])
 
 
-class ArticleDeleteView(DeleteView):
+class ArticleDeleteView(LoginRequiredMixin, DeleteView):
+    login_url = reverse_lazy('users:login')
     model = Article
     extra_context = {
         "title": "Удаление статьи"

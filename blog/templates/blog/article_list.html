@@ -1,25 +1,24 @@
 {% extends 'catalog/base.html' %}
 {% load my_tags %}
 {% block content %}
-    <a href="{% url 'blog:create_article' %}" class="btn btn-outline-success btn-lg btn-block mb-3">Добавить статью</a>
-    {% for object in object_list %}
-        <div class="row">
-            <div class="col-12">
-                <div class="card mb-4 box-shadow">
-                    <div class="card-header">
-                        <b class="pr_inf">{{ object.title }}</b>
-                    </div>
-                <div class="card-body">
+{% if user.is_authenticated %}
+<a href="{% url 'blog:create_article' %}" class="btn btn-outline-success btn-lg btn-block mb-3">Добавить статью</a>
+{% endif %}
+{% for object in object_list %}
+<div class="row">
+    <div class="col-12">
+        <div class="card mb-4 box-shadow">
+            <div class="card-header">
+                <b class="pr_inf">{{ object.title }}</b>
+            </div>
+            <div class="card-body">
                 <img src="{{ object.image | media_url }}" style="width:100%;height:30em;">
                 <p class="mt-4">{{ object.content | slice:200 }}...</p>
-                <p>{{ object.created_at }}</p>
                 <p>Количество просмотров: {{ object.count_views }}</p>
                 <a href="{% url 'blog:view_article' object.slug %}" class="btn btn-success">Читать</a>
-                <a href="{% url 'blog:update_article' object.slug %}" class="btn btn-warning">Редактировать</a>
-                <a href="{% url 'blog:delete_article' object.slug %}" class="btn btn-danger">Удалить</a>
-                </div>
             </div>
-                </div>
         </div>
-    {% endfor %}
+    </div>
+</div>
+{% endfor %}
 {% endblock %}

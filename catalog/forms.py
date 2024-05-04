@@ -20,7 +20,7 @@ class StyleFormMixin:
 class ProductForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Product
-        exclude = ('created_at', 'updated_at', )
+        exclude = ('created_at', 'updated_at', 'owner',)
 
     def clean_name(self):
         clean_data = self.cleaned_data.get('name')
@@ -43,18 +43,10 @@ class VersionForm(StyleFormMixin, forms.ModelForm):
         return clean_data
 
 
-# class VersionFormSet(BaseInlineFormSet):
-#     class Meta:
-#         model = Version
-#         exclude = ('product', )
-#
-#     def clean(self):
-#         super().clean()
-#         is_active = self.cleaned_data
-#         i = 0
-#         for form in self.forms:
-#             if form.cleaned_data.get('is_active'):
-#                 i += 1
-#                 if i > 1:
-#                     raise ValidationError('Можно выбрать только один активный сезон')
-#         return is_active
+class VersionFormSet(BaseInlineFormSet):
+    def clean(self):
+        super().clean()
+        active_version = [form.cleaned_data for form in self.forms if form.cleaned_data.get('is_active')]
+        if len(active_version) > 1:
+            raise ValidationError('Можно выбрать только один активный сезон')
+        return active_version

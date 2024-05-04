@@ -1,6 +1,7 @@
-import datetime
-
+from django.conf import settings
 from django.db import models
+
+from blog.models import NULLABLE
 
 
 class Category(models.Model):
@@ -26,6 +27,9 @@ class Product(models.Model):
     price = models.IntegerField(verbose_name='Цена')
     created_at = models.DateTimeField(auto_now_add=True, verbose_name='Дата создания')
     updated_at = models.DateTimeField(auto_now=True, verbose_name='Дата изменения')
+
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL,
+                              **NULLABLE, verbose_name='Пользователь')
 
     def __str__(self):
         """Строковое отображение продукта"""

@@ -11,6 +11,7 @@
             <li>Наименование: {{object.name}}</li>
             <li>Категория: {{object.category}}</li>
             <li>Цена: {{object.price}} Р</li>
+            <li>Добавил: {{object.owner|default:'администратор'}}</li>
         </ul>
         {% if version %}
             <b class="pr_inf">Информация о сезоне:</b>
@@ -19,10 +20,12 @@
              <li>Описание: {{ version.description }}</li>
             </ul>
         {% endif %}
+        {% if user.is_authenticated %}
         <div class="col-12">
             <a class="btn btn-warning" href="{% url 'catalog:product_update' object.pk %}">Редактировать</a>
             <a class="btn btn-danger" href="{% url 'catalog:product_delete' object.pk %}">Удалить</a>
         </div>
+        {% endif %}
     </div>
     <div class="col-4">
         <b class="pr_inf">Описание продукта:</b>
