@@ -1,5 +1,6 @@
 from django import forms
-from django.forms import BooleanField
+from django.core.exceptions import ValidationError
+from django.forms import BooleanField, BaseInlineFormSet
 
 from catalog.models import Product, Version
 
@@ -32,7 +33,7 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
 class VersionForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Version
-        exclude = '__all__'
+        exclude = ('product', )
 
     def clean_description(self):
         clean_data = self.cleaned_data.get('description')
@@ -41,10 +42,19 @@ class VersionForm(StyleFormMixin, forms.ModelForm):
                 raise forms.ValidationError(f'В описании сезона содержится запрещенное слово: {word}')
         return clean_data
 
-    # def clean_is_active(self):
-    #     is_active = self.cleaned_data.get('is_active')
-    #     product = self.cleaned_data.get('product')
-    #     active_versions = Version.objects.filter(product=product, is_active=True).exists()
-    #     if is_active and active_versions:
-    #         raise forms.ValidationError('Можно выбрать только один активный сезон')
-    #     return is_active
+
+# class VersionFormSet(BaseInlineFormSet):
+#     class Meta:
+#         model = Version
+#         exclude = ('product', )
+#
+#     def clean(self):
+#         super().clean()
+#         is_active = self.cleaned_data
+#         i = 0
+#         for form in self.forms:
+#             if form.cleaned_data.get('is_active'):
+#                 i += 1
+#                 if i > 1:
+#                     raise ValidationError('Можно выбрать только один активный сезон')
+#         return is_active
