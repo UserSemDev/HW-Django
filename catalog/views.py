@@ -47,7 +47,8 @@ class ProductListView(ListView):
     }
 
 
-class ProductDetailView(DetailView):
+class ProductDetailView(LoginRequiredMixin, DetailView):
+    login_url = reverse_lazy('users:login')
     model = Product
     extra_context = {
         "title": "Продукт"

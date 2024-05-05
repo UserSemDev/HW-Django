@@ -20,7 +20,8 @@ class ArticleListView(ListView):
         return queryset
 
 
-class ArticleDetailView(DetailView):
+class ArticleDetailView(LoginRequiredMixin, DetailView):
+    login_url = reverse_lazy('users:login')
     model = Article
     extra_context = {
         "title": "Статья"
