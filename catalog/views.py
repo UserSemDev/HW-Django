@@ -1,9 +1,10 @@
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.forms import inlineformset_factory
 from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, DetailView, CreateView, ListView, UpdateView, DeleteView
 
-from catalog.forms import ProductForm, VersionForm, VersionFormSet
+from catalog.forms import ProductForm, VersionForm, VersionFormSet, ProductModeratorForm
 from catalog.models import Product, Contact, Feedback, Version
 
 
@@ -47,8 +48,8 @@ class ProductListView(ListView):
     }
 
 
-class ProductDetailView(LoginRequiredMixin, DetailView):
-    login_url = reverse_lazy('users:login')
+class ProductDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
+    permission_required = 'catalog.view_product'
     model = Product
     extra_context = {
         "title": "Продукт"
@@ -60,8 +61,8 @@ class ProductDetailView(LoginRequiredMixin, DetailView):
         return context_data
 
 
-class ProductCreateView(LoginRequiredMixin, CreateView):
-    login_url = reverse_lazy('users:login')
+class ProductCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
+    permission_required = 'catalog.add_product'
     model = Product
     form_class = ProductForm
     extra_context = {
@@ -91,10 +92,8 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
             return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
 
-class ProductUpdateView(LoginRequiredMixin, UpdateView):
-    login_url = reverse_lazy('users:login')
+class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = Product
-    form_class = ProductForm
     extra_context = {
         "title": "Редактирование товара"
     }
@@ -122,9 +121,24 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
         else:
             return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.owner or user.is_superuser:
+            return ProductForm
+        if user.has_perms(['catalog.can_change_category',
+                           'catalog.can_change_description',
+                           'catalog.set_published_status']):
+            return ProductModeratorForm
 
-class ProductDeleteView(LoginRequiredMixin, DeleteView):
-    login_url = reverse_lazy('users:login')
+    def has_permission(self):
+        perms = ('catalog.can_change_category',
+                 'catalog.can_change_description',
+                 'catalog.set_published_status')
+        return self.request.user.has_perms(perms)
+
+
+class ProductDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
+    permission_required = 'catalog.delete_product'
     model = Product
     extra_context = {
         "title": "Удаление товара"

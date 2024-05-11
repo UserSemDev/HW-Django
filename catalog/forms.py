@@ -30,6 +30,19 @@ class ProductForm(StyleFormMixin, forms.ModelForm):
         return clean_data
 
 
+class ProductModeratorForm(StyleFormMixin, forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ('category', 'description', 'is_published',)
+
+    def clean_name(self):
+        clean_data = self.cleaned_data.get('name')
+        for word in FORBIDDEN_WORDS:
+            if word in clean_data.lower():
+                raise forms.ValidationError(f'В названии продукта содержится запрещенное слово: {word}')
+        return clean_data
+
+
 class VersionForm(StyleFormMixin, forms.ModelForm):
     class Meta:
         model = Version

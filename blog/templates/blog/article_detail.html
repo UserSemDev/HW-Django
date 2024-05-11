@@ -1,6 +1,6 @@
 {% extends 'catalog/base.html' %}
-{% load my_tags %}
 {% block content %}
+{% load my_tags auth_tags %}
 <div class="row">
     <div class="col-12">
         <div class="card mb-4 box-shadow">
@@ -13,7 +13,7 @@
                 <p>Автор: {{ object.owner|default:'администратор' }}</p>
                 <p>Добавлена: {{ object.created_at }}</p>
                 <p>Количество просмотров: {{ object.count_views }}</p>
-                {% if user.is_authenticated %}
+                {% if user|is_content_manager or user == object.owner %}
                 <a href="{% url 'blog:update_article' object.slug %}" class="btn btn-warning">Редактировать</a>
                 <a href="{% url 'blog:delete_article' object.slug %}" class="btn btn-danger">Удалить</a>
                 {% endif %}

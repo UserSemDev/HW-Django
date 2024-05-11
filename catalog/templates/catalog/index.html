@@ -16,8 +16,10 @@
         </div>
         {% endfor %}
     </div>
-    <div class="text-center me-4">
-        <a class="p-2 btn btn-outline-success form-control" href="{% url 'catalog:product_list' %}">Подробнее</a>
+    <div class="row justify-content-center">
+        <div class="text-center me-4 col-4">
+            <a class="p-2 btn btn-outline-success form-control" href="{% url 'catalog:product_list' %}">Подробнее</a>
+        </div>
     </div>
 </div>
 {% endblock %}

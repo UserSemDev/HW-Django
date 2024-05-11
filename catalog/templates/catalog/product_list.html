@@ -1,9 +1,9 @@
 {% extends 'catalog/base.html' %}
 {% block content %}
 {% load my_tags %}
-{% if user.is_authenticated %}
+{% if perms.catalog.add_product %}
 <div class="row justify-content-center">
-    <div class="col-4">
+    <div class="col-3">
         <a href="{% url 'catalog:product_create' %}" class="btn btn-outline-success btn-block mb-3 form-control">Добавить
             продукт</a>
     </div>

@@ -1,7 +1,7 @@
 {% extends 'catalog/base.html' %}
 {% load my_tags %}
 {% block content %}
-{% if user.is_authenticated %}
+{% if perms.blog.add_article %}
 <a href="{% url 'blog:create_article' %}" class="btn btn-outline-success btn-lg btn-block mb-3">Добавить статью</a>
 {% endif %}
 {% for object in object_list %}

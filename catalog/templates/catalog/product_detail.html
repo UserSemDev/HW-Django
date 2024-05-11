@@ -1,6 +1,6 @@
 {% extends 'catalog/base.html' %}
 {% block content %}
-{% load my_tags %}
+{% load my_tags auth_tags %}
 <div class="row">
     <div class="col-4">
         <img src="{{ object.image|media_url }}" style="width:30em;height:30em;">
@@ -20,12 +20,14 @@
              <li>Описание: {{ version.description }}</li>
             </ul>
         {% endif %}
-        {% if user.is_authenticated %}
         <div class="col-12">
-            <a class="btn btn-warning" href="{% url 'catalog:product_update' object.pk %}">Редактировать</a>
-            <a class="btn btn-danger" href="{% url 'catalog:product_delete' object.pk %}">Удалить</a>
+            {% if user|is_moderator or user == object.owner %}
+                <a class="btn btn-warning" href="{% url 'catalog:product_update' object.pk %}">Редактировать</a>
+            {% endif %}
+            {% if perms.catalog.delete_product or user == object.owner %}
+                <a class="btn btn-danger" href="{% url 'catalog:product_delete' object.pk %}">Удалить</a>
+            {% endif %}
         </div>
-        {% endif %}
     </div>
     <div class="col-4">
         <b class="pr_inf">Описание продукта:</b>
