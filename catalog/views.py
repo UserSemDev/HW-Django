@@ -48,8 +48,7 @@ class ProductListView(ListView):
     }
 
 
-class ProductDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
-    permission_required = 'catalog.view_product'
+class ProductDetailView(LoginRequiredMixin, DetailView):
     model = Product
     extra_context = {
         "title": "Продукт"
@@ -61,8 +60,7 @@ class ProductDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView)
         return context_data
 
 
-class ProductCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
-    permission_required = 'catalog.add_product'
+class ProductCreateView(LoginRequiredMixin, CreateView):
     model = Product
     form_class = ProductForm
     extra_context = {
@@ -92,7 +90,7 @@ class ProductCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView)
             return self.render_to_response(self.get_context_data(form=form, formset=formset))
 
 
-class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
+class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
     extra_context = {
         "title": "Редактирование товара"
@@ -130,17 +128,25 @@ class ProductUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView)
                            'catalog.set_published_status']):
             return ProductModeratorForm
 
-    def has_permission(self):
-        perms = ('catalog.can_change_category',
-                 'catalog.can_change_description',
-                 'catalog.set_published_status')
-        return self.request.user.has_perms(perms)
+    def dispatch(self, request, *args, **kwargs):
+        user = self.request.user
+        if (user != self.get_object().owner and not user.is_superuser and
+                not user.groups.filter(name='Moderator').exists()):
+            raise PermissionDenied
+
+        return super().dispatch(request, *args, **kwargs)
 
 
-class ProductDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
-    permission_required = 'catalog.delete_product'
+class ProductDeleteView(LoginRequiredMixin, DeleteView):
     model = Product
     extra_context = {
         "title": "Удаление товара"
     }
     success_url = reverse_lazy('catalog:product_list')
+
+    def dispatch(self, request, *args, **kwargs):
+        user = self.request.user
+        if user != self.get_object().owner and not user.is_superuser:
+            raise PermissionDenied
+
+        return super().dispatch(request, *args, **kwargs)
