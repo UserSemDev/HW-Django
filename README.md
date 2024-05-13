@@ -69,6 +69,7 @@ pip install -r requirements.txt
     ADMIN_EMAIL='admin@test.com' - email регистрации администратора сайта
     ADMIN_PASSWORD='secret' - пароль регистрации администратора сайта
   
+    SECRET_KEY=secret_key - секретный ключ django проекта
     DEBUG=True - режим DEBUG
     REDIS_HOST=redis://host:port - данные местоположения redis
     CACHE_ENABLED=True - использование кэша
