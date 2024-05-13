@@ -5,7 +5,8 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import TemplateView, DetailView, CreateView, ListView, UpdateView, DeleteView
 
 from catalog.forms import ProductForm, VersionForm, VersionFormSet, ProductModeratorForm
-from catalog.models import Product, Contact, Feedback, Version
+from catalog.models import Product, Contact, Feedback, Version, Category
+from catalog.services import get_categories_from_cache, get_products_from_cache
 
 
 class HomeIndexView(TemplateView):
@@ -40,12 +41,35 @@ class ContactCreateView(CreateView):
     success_url = reverse_lazy('catalog:index_contact')
 
 
+class CategoryListView(LoginRequiredMixin, ListView):
+    model = Category
+    extra_context = {
+        "title": "Категории продуктов"
+    }
+
+    def get_queryset(self):
+        return get_categories_from_cache()
+
+
+class CategoryDetailView(LoginRequiredMixin, DetailView):
+    model = Category
+
+    def get_context_data(self, **kwargs):
+        context_data = super().get_context_data(**kwargs)
+        context_data['title'] = f"Категория {self.object}"
+        context_data['objects_list'] = Product.objects.filter(category=self.kwargs.get('pk'))
+        return context_data
+
+
 class ProductListView(ListView):
     paginate_by = 4
     model = Product
     extra_context = {
         "title": "Продукты"
     }
+
+    def get_queryset(self):
+        return get_products_from_cache()
 
 
 class ProductDetailView(LoginRequiredMixin, DetailView):

@@ -1,0 +1,20 @@
+{% extends 'catalog/base.html' %}
+{% block content %}
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+    {% for object in object_list %}
+        <div class="col mb-4 mt-4 text-center">
+            <div class="card shadow-sm">
+                <div class="card-header pr_inf">
+                    {{ object.name }}
+                </div>
+                <div class="card-body">
+                    {{ object.description }}
+                </div>
+                <div class="card-header">
+                    <a class="btn btn-success" href="{% url 'catalog:category_detail' object.pk %}">Подробнее</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
