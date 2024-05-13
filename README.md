@@ -68,12 +68,16 @@ pip install -r requirements.txt
   
     ADMIN_EMAIL='admin@test.com' - email регистрации администратора сайта
     ADMIN_PASSWORD='secret' - пароль регистрации администратора сайта
+  
+    DEBUG=True - режим DEBUG
+    REDIS_HOST=redis://host:port - данные местоположения redis
+    CACHE_ENABLED=True - использование кэша
     ```
 - О настройке почты smtp: 
 [Настройка почтового сервиса SMTP ](https://proghunter.ru/articles/setting-up-the-smtp-mail-service-for-yandex-in-django)
 
 
-##### 4. Настройка БД:
+##### 4. Настройка БД и кэширования:
 
 - Примените миграции:
   ```text
@@ -85,11 +89,29 @@ pip install -r requirements.txt
   python manage.py loaddata fixtures/*.json
   ```
   
+- Установите Redis:
+
+  - Linux команда:
+   ```text
+   sudo apt install redis; или sudo yum install redis;
+   ```
+
+  - macOS команда:
+   ```text
+   brew install redis;
+   ```
+
+  Windows инструкция:
+  - [Перейти на Redis docs](https://redis.io/docs/install/install-redis/install-redis-on-windows/)
+    
 ##### 5. Запуск проекта:
 
-- Запустите проект и перейдите по адресу:
+- Запустите проект:
 
   ```text
   python manage.py runserver
   ```
+- Перейдите по адресу:
+  [http://127.0.0.1:8000](http://127.0.0.1:8000/)
+
   
